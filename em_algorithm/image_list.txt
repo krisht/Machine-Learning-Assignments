@@ -1,8 +1,0 @@
-./temp/pic_000.png
-./temp/pic_001.png
-./temp/pic_002.png
-./temp/pic_003.png
-./temp/pic_004.png
-./temp/pic_005.png
-./temp/pic_006.png
-./temp/pic_007.png
