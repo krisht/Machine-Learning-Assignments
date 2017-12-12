@@ -14,9 +14,9 @@ import shutil
 n_iter = 100
 
 fig = plt.figure()
-plt.ylabel("Normalized frequency")
-plt.xlabel("x")
-plt.title("EM Algorithm in 1D With 3 Clusters (Iteration %d)" % 0)
+# plt.ylabel("Normalized frequency")
+# plt.xlabel("x")
+# plt.title("EM Algorithm in 1D With 3 Clusters (Iteration %d)" % 0)
 plt.xlim([-10, 16])
 plt.ylim([0, 0.7])
 
