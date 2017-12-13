@@ -3,13 +3,7 @@
 
 import matplotlib.mlab as mlab
 import matplotlib.pyplot as plt
-import matplotlib.animation as animation
 import numpy as np
-import scipy
-import os
-import scipy.stats
-import random
-import shutil
 
 n_iter = 100
 
@@ -57,6 +51,9 @@ while num_accepted < 500:
     if u_0 <= p_z0:
         z_0_accepted[num_accepted] = z_0
         num_accepted += 1
+        plt.scatter(z_0, u_0, c='green')
+    else:
+        plt.scatter(z_0, u_0, c='red')
 
 plt.hist(z_0_accepted, bins = 100, normed = True)
 
