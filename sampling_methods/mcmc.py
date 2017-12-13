@@ -3,13 +3,9 @@
 
 import matplotlib.mlab as mlab
 import matplotlib.pyplot as plt
-import matplotlib.animation as animation
 import numpy as np
-import scipy
-import os
+from scipy.stats import multivariate_normal, norm
 import scipy.stats
-import random
-import shutil
 
 
 fig = plt.figure()
@@ -22,7 +18,7 @@ fig = plt.figure()
 
 # All values from book
 
-N = 500
+N = 25
 sigma = 0.2
 beta = 1/np.power(sigma, 2.0)
 alpha = 2
@@ -31,8 +27,22 @@ w_1 = 0.5
 
 x_n = np.linspace (-1, 1, N)
 t_n = w_0 + w_1*x_n
+noise = np.random.normal (0, sigma, N)
+t_n = t_n + noise
 
-plt.plot(x_n, t_n)
+mu_n = np.zeros((N, 2))
+S_n = np.zeros((N, 2, 2))
+
+mu_0 = [0, 0]
+S_0 = (1.0/alpha) * (np.identity(2))
+
+phi = np.array([[1 , x_n[0]]])
+for i in range(N):
+    if i != 0:
+        phi = np.concatenate((phi, np.array([[1, x_n[i]]])), axis=0)
+phiT = phi.T
+
+plt.scatter(x_n, t_n)
 
 q = mlab.normpdf(x_n, 0, 1)
 
@@ -44,25 +54,32 @@ q = q * k_scale
 
 plt.plot(x_n, q)
 
+z_t = np.random.multivariate_normal(mu_0, S_0)
+
 z_0_accepted = np.zeros(500)
 num_accepted = 0
 p_z_T = 0
 
+num_burn = 0
+
 while num_accepted < 500:
-    z_star = np.random.normal(0, 1)
-    p_z_star = w_0 + w_1*z_star
+    z_star = multivariate_normal(0, 1)
 
-    if p_z_T == 0:
-        A_z_star = 1
-    else:
-        A_z_star = min(1, float(p_z_star)/p_z_T)
+    p_z_T = sum(np.log(scipy.stats.norm(t_n.T, phi * z_t.T, S_0)))
+    p_z_T = p_z_T + np.log(multivariate_normal(z_t, mu_0, S_0))
 
+    p_z_star = sum(np.log(scipy.stats.norm(t_n.T, phi * z_t.T, S_0)))
+    p_z_star = p_z_star + np.log(multivariate_normal(z_star, mu_0, S_0))
+
+    A_z_star = min(0, p_z_star - p_z_T)
     u = np.random.uniform(0, 1)
-    if A_z_star > u:
-        z_0_accepted[num_accepted] = z_star
-        p_z_T = p_z_star
-        num_accepted += 1
 
+    if A_z_star > u:
+        num_burn += 1
+        z_t = z_star
+        if (num_burn > 100):
+            z_0_accepted[num_accepted] = z_star
+            num_accepted += 1
 plt.hist(z_0_accepted, bins = 100, normed = True)
 
 plt.show()
