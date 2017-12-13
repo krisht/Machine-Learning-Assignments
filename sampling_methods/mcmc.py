@@ -93,9 +93,9 @@ w_1_mean = np.sum(z_0_accepted[:, 1])/num_accepted
 print("Actual values: w_0 = ", w_0, ", w_1 = ", w_1)
 print("Estimated values: w_0 = ", w_0_mean, ", w_1 = ", w_1_mean)
 
-plt.scatter(z_0_accepted[:, 0], z_0_accepted[:, 1], c="blue", alpha=0.2, label="Sampled values")
-plt.scatter(w_0, w_1, c="green", marker="x", label="Actual weights")
-plt.scatter(w_0_mean, w_1_mean, c="red", marker="x", label="Estimated weights")
+plt.scatter(z_0_accepted[:, 0], z_0_accepted[:, 1], c="blue", marker="x", alpha=0.2, label="Sampled values")
+plt.scatter(w_0, w_1, c="brown", label="Actual weights")
+plt.scatter(w_0_mean, w_1_mean, c="red", label="Estimated weights")
 plt.legend(loc="upper right")
 
 

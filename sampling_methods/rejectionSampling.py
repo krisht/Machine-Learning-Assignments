@@ -8,9 +8,9 @@ import numpy as np
 n_iter = 100
 
 fig = plt.figure()
-# plt.ylabel("Normalized frequency")
-# plt.xlabel("x")
-# plt.title("EM Algorithm in 1D With 3 Clusters (Iteration %d)" % 0)
+plt.ylabel("Y")
+plt.xlabel("X")
+plt.title("Estimation from Rejection Sampling")
 plt.xlim([-10, 16])
 plt.ylim([0, 0.7])
 
@@ -24,7 +24,7 @@ sample_pdf_gm = np.zeros(500)
 for kk in range(3):
     sample_pdf_gm += mlab.normpdf(X, muk[kk], sigk[kk])
 
-plt.plot(X, sample_pdf_gm)
+plt.plot(X, sample_pdf_gm, c="green", label="Gaussian Mixture Model")
 
 
 q = mlab.normpdf(X, 3, 10)
@@ -35,7 +35,7 @@ for zz in range (500):
         k_scale = sample_pdf_gm[zz] / q[zz]
 q = q * k_scale
 
-plt.plot(X, q)
+plt.plot(X, q, c="red", label="kq(z)")
 
 z_0_accepted = np.zeros(500)
 num_accepted = 0
@@ -51,11 +51,12 @@ while num_accepted < 500:
     if u_0 <= p_z0:
         z_0_accepted[num_accepted] = z_0
         num_accepted += 1
-        plt.scatter(z_0, u_0, c='green')
+        plt.scatter(z_0, u_0, c='green', s=1.5)
     else:
-        plt.scatter(z_0, u_0, c='red')
+        plt.scatter(z_0, u_0, c='red', s=1.5)
 
-plt.hist(z_0_accepted, bins = 100, normed = True)
+plt.hist(z_0_accepted, bins = 100, normed = True, label="Estimated Gaussians")
+plt.legend(loc="upper right")
 
 plt.show()
 
