@@ -99,4 +99,4 @@ plt.scatter(w_0_mean, w_1_mean, c="red", label="Estimated weights")
 plt.legend(loc="upper right")
 
 
-plt.show()
+plt.savefig('mcmc.pdf')

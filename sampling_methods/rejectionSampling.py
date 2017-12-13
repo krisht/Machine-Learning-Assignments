@@ -51,12 +51,12 @@ while num_accepted < 500:
     if u_0 <= p_z0:
         z_0_accepted[num_accepted] = z_0
         num_accepted += 1
-        plt.scatter(z_0, u_0, c='green', s=1.5)
+        plt.scatter(z_0, u_0, c='green', marker='*', s=1.5, alpha = 0.5)
     else:
-        plt.scatter(z_0, u_0, c='red', s=1.5)
+        plt.scatter(z_0, u_0, c='red', marker='*', s=1.5, alpha = 0.5)
 
 plt.hist(z_0_accepted, bins = 100, normed = True, label="Estimated Gaussians")
 plt.legend(loc="upper right")
 
-plt.show()
+plt.savefig('rejection_sampling.pdf')
 
